@@ -1,0 +1,27 @@
+<Policy id="urn:example:policies:any-subject-read-test-any-resource" combiningAlg="and">
+  <Target>
+    <Any/>
+  </Target>
+  <Rule effect="Permit">
+    <Condition>
+      <Or>
+        <Apply function="urn:oasis:names:tc:xacml:1.0:functions:string-equals">
+          <And>
+            <Apply function="urn:oasis:names:tc:xacml:1.0:functions:action-id">
+              <Variable>X</Variable>
+            </Apply>
+            <Constant>read</Constant>
+          </And>
+        </Apply>
+        <Apply function="urn:oasis:names:tc:xacml:1.0:functions:string-equals">
+          <And>
+            <Apply function="urn:oasis:names:tc:xacml:1.0:functions:action-id">
+              <Variable>X</Variable>
+            </Apply>
+            <Constant>test</Constant>
+          </And>
+        </Apply>
+      </Or>
+    </Condition>
+  </Rule>
+</Policy>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+        PolicyId="Age45AnyActionAnyResource"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+    
+    <Target/>
+
+    <!-- Rule for subjects who are 45 years old to perform any action on any resource -->
+    <Rule RuleId="Age45CanPerformAnyAction" Effect="Permit">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:integer-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">45</AttributeValue>
+                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:age"
+                                                    DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Resources>
+                <AnyResource/>
+            </Resources>
+            <Actions>
+                <AnyAction/>
+            </Actions>
+        </Target>
+    </Rule>
+
+</Policy>

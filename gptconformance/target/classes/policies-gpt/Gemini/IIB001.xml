@@ -1,0 +1,10 @@
+<Policy id="urn:example:policies:any-action-on-any-resource" combiningAlg="and">
+  <Target>
+    <Any/>
+  </Target>
+  <Rule effect="Permit">
+    <Condition>
+      <Any/>
+    </Condition>
+  </Rule>
+</Policy>

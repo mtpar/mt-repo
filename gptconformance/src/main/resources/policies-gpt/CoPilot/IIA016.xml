@@ -1,0 +1,22 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyId="example-policy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+    <Target/>
+    <Rule RuleId="allow-anyone-any-action-any-resource" Effect="Permit">
+        <Target>
+            <Subjects>
+                <AnySubject/>
+            </Subjects>
+            <Resources>
+                <AnyResource/>
+            </Resources>
+            <Actions>
+                <AnyAction/>
+            </Actions>
+        </Target>
+        <Condition FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-equal">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time" DataType="http://www.w3.org/2001/XMLSchema#time" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:environment"/>
+            </Apply>
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">08:23:47-05:00</AttributeValue>
+        </Condition>
+    </Rule>
+</Policy>

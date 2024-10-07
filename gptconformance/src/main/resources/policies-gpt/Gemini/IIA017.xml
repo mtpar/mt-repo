@@ -1,0 +1,12 @@
+<Policy id="urn:example:policies:any-action-if-current-time" combiningAlg="and">
+  <Target>
+    <Any/>
+  </Target>
+  <Rule effect="Permit">
+    <Condition>
+      <Apply function="urn:oasis:names:tc:xacml:1.0:functions:current-time">
+        <And/>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

@@ -1,0 +1,35 @@
+<Policy id="urn:example:policies:any-action-if-current-time" combiningAlg="and">
+  <Target>
+    <Any/>
+  </Target>
+  <Rule effect="Permit">
+    <Condition>
+      <Apply function="urn:oasis:names:tc:xacml:1.0:functions:current-time">
+        <And>
+          <Apply function="urn:oasis:names:tc:xacml:1.0:functions:hour-from-dateTime">
+            <And/>
+          </Apply>
+          <Equals value="8"/>
+        </And>
+        <And>
+          <Apply function="urn:oasis:names:tc:xacml:1.0:functions:minute-from-dateTime">
+            <And/>
+          </Apply>
+          <Equals value="23"/>
+        </And>
+        <And>
+          <Apply function="urn:oasis:names:tc:xacml:1.0:functions:second-from-dateTime">
+            <And/>
+          </Apply>
+          <Equals value="47"/>
+        </And>
+        <And>
+          <Apply function="urn:oasis:names:tc:xacml:1.0:functions:time-zone-offset-from-dateTime">
+            <And/>
+          </Apply>
+          <Equals value="-5"/>
+        </And>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

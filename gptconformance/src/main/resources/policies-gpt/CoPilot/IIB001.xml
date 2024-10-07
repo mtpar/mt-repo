@@ -1,0 +1,16 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyId="example-policy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+    <Target/>
+    <Rule RuleId="allow-any-subject-any-action-any-resource" Effect="Permit">
+        <Target>
+            <Subjects>
+                <AnySubject/>
+            </Subjects>
+            <Resources>
+                <AnyResource/>
+            </Resources>
+            <Actions>
+                <AnyAction/>
+            </Actions>
+        </Target>
+    </Rule>
+</Policy>
