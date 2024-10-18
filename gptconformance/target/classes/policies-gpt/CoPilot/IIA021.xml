@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os 
+                            http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:current-time-any-action-any-resource"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
+        Version="1.0">
+    <Description>Policy for allowing anyone to perform any kind of action on any kind of resource if there is a current-time attribute</Description>
+    <Target/>
+    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:permit-current-time-attribute-access"
+          Effect="Permit">
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-is-in">
+                <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                                                DataType="http://www.w3.org/2001/XMLSchema#time"/>
+            </Apply>
+        </Condition>
+    </Rule>
+</Policy>

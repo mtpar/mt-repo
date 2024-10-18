@@ -1,30 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
-        PolicyId="Age45AnyActionAnyResource"
-        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:age-45-access"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
         Version="1.0">
-    
-    <Target/>
-
-    <!-- Rule for subjects who are 45 years old to perform any action on any resource -->
-    <Rule RuleId="Age45CanPerformAnyAction" Effect="Permit">
+    <!-- Rule: Allow subjects who are exactly 45 years old to perform any action on any resource -->
+    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-age-45-any-action-resource"
+          Effect="Permit">
+       
         <Target>
-            <Subjects>
-                <Subject>
-                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:integer-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">45</AttributeValue>
-                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:age"
-                                                    DataType="http://www.w3.org/2001/XMLSchema#integer"/>
-                    </SubjectMatch>
-                </Subject>
-            </Subjects>
-            <Resources>
-                <AnyResource/>
-            </Resources>
-            <Actions>
-                <AnyAction/>
-            </Actions>
+            <!-- No specific target for resources or actions: Applies to any resource and any action -->
         </Target>
+
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-equal">
+                <!-- Age attribute must be exactly 45 -->
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">45</AttributeValue>
+                <SubjectAttributeDesignator AttributeId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:subject:age"
+                                            DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+            </Apply>
+        </Condition>
     </Rule>
 
 </Policy>
+
+<!-- 
+//Error == Wrong nesting of elements//
+
+Multiple annotations found at this line:
+	- Element name 'Rule' is invalid.
+
+One of the following is expected:
+- Description
+- PolicyDefaults
+- CombinerParameters
+- Target
+
+Error indicated by:
+{urn:oasis:names:tc:xacml:2.0:policy:schema:os}
+with code:
+	- cvc-complex-type.2.4.a: Invalid 
+	 content was found starting with element 
+	 '{"urn:oasis:names:tc:xacml:2.0:policy:schema:os":Rule}'. 
+	 One of 
+	 '{"urn:oasis:names:tc:xacml:2.0:policy:schema:os":Description, 
+	 "urn:oasis:names:tc:xacml:2.0:policy:schema:os":PolicyDefaults, 
+	 "urn:oasis:names:tc:xacml:2.0:policy:schema:os":CombinerParameters, 
+	 "urn:oasis:names:tc:xacml:2.0:policy:schema:os":Target}' 
+	 is expected. -->

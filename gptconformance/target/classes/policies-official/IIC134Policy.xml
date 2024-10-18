@@ -8,6 +8,7 @@
       RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
     <Description>
         Policy for Conformance Test IIC134.
+        MT (Gemini)--Access is granted to any user on any resource on any action only if the user has a single date attribute named "test-attr" with a value of March 22nd, 2002.
     </Description>
     <Target/>
     <Rule

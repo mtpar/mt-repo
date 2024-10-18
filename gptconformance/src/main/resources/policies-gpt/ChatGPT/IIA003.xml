@@ -1,32 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
-        PolicyId="BogusAttributePhysicianAccessToBartMedicalRecord"
-        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd" 
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:physician-access"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
         Version="1.0">
     
-    <Target/>
-
-    <!-- Rule for subjects with a bogus attribute "Physician" to read or write Bart Simpson's medical record -->
-    <Rule RuleId="BogusPhysicianCanReadWriteBartMedicalRecord" Effect="Permit">
+    <!-- Target: Applies to Bart Simpson's medical record -->
+    <Target>
+        <Resources>
+            <Resource>
+                <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                        urn:sedclab:names:tc:xacml:2.0:gpt-tests:resource:medical-record:bartsimpson
+                    </AttributeValue>
+                    <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                                DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </ResourceMatch>
+            </Resource>
+        </Resources>
+    </Target>
+    
+    <!-- Rule: Allow subjects with bogus attribute = "Physician" to read or write Bart Simpson's medical record -->
+    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-physician-read-write"
+          Effect="Permit">
         <Target>
             <Subjects>
                 <Subject>
                     <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
                         <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Physician</AttributeValue>
-                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:2.0:subject:bogus"
+                        <SubjectAttributeDesignator AttributeId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:subject:bogus"
                                                     DataType="http://www.w3.org/2001/XMLSchema#string"/>
                     </SubjectMatch>
                 </Subject>
             </Subjects>
-            <Resources>
-                <Resource>
-                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">BartSimpsonMedicalRecord</AttributeValue>
-                        <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
-                                                     DataType="http://www.w3.org/2001/XMLSchema#string"/>
-                    </ResourceMatch>
-                </Resource>
-            </Resources>
+            
             <Actions>
                 <Action>
                     <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
@@ -45,5 +54,4 @@
             </Actions>
         </Target>
     </Rule>
-
 </Policy>

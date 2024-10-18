@@ -1,0 +1,57 @@
+***********************************
+*************	A	***************
+***********************************
+
+IA001
+Please translate into XACML2 the following access policy for an administration: "Julius Hibbert can read or write Bart Simpson's medical record." Please note that resources such as medical records are identified
+via urns and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids.
+
+IA003
+Please translate into XACML2 the following access policy for an administration: "A subject with a "bogus" attribute with a value of "Physician" can read or write Bart Simpson's medical record." Please note that resources such as medical records are identified
+via urns and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids.
+
+IA010
+Please translate into XACML2 the following access policy for an administration: "Anyone who is 45 integer years old may perform any
+            action on any resource." Please note that resources such as medical records are identified
+via urns and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Also add namespace declarations to the policy element: xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os".
+
+IA016
+Please translate into XACML2 the following access policy for an administration: "Anyone can perform any kind of action on any kind of resource if current-time is 08:23:47-05:00." Please note that resources such as medical records are identified
+via urns and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Also add namespace declarations to the policy element: xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os".
+
+
+
+IA021
+Please translate into XACML2 the following access policy for an administration: "Anyone can perform any kind of action on any kind of resource if
+            there is a current-time attribute." Please note that resources such as medical records are identified via urns.
+
+
+
+
+
+Please translate into XACML2 the following access policy for a hospital administration: "Julius Hibbert can read or write Bart Simpson's medical record." 
+Please note that resources such as medical records are identified via urns and that the base namespace for the administration is 
+"urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Don't forget to add statements for XMLSchema declaration at the root level.
+
+
+***********************************
+*************	B	***************
+***********************************
+
+
+
+
+
+***********************************
+*************	C	***************
+***********************************
+
+
+
+
+
+IIB001.	Write the following as an XACML2 policy: "Any Subject can perform any action on any resource."  Write only the xml, no plain text is needed.
+IIB002.	Write the following as an XACML2 policy: "Any Subject can read or write any resource."  Write only the xml, no plain text is needed.
+IIB003.	Write the following as an XACML2 policy: "Any subject can read or test any resource."  Write only the xml, no plain text is needed.

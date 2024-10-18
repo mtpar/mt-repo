@@ -1,0 +1,42 @@
+GEMINI
+
+Strategia di prompting: fornisco un "cappello" introduttivo con tutte le info che ritengo utili, elenco quante domande voglio fare e poi le passo una ad una. 
+
+***A***
+
+INTRO:
+I need to translate into XACML2 some access policies for a hospital organization. Please note that resources such as medical records are identified via urns 
+and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Please, include xml 
+schema declaration in every document: declaration administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids.  
+Please note that records are identified via urns and that the base namespace is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. 
+Don't forget to add statements for XMLSchema declaration at the root level. Are you ready?
+
+001.
+I have a set of 5 policies to translate according to the previous specifications. Here is the first:  "Julius Hibbert can read or write Bart Simpson's medical record."
+
+003.
+Here is the second policy: "A subject with a "bogus" attribute with a value of "Physician" can read or write Bart Simpson's medical record."
+
+010
+Here's the next one: "Anyone who is 45 integer years old may perform any kind of action on any kind of resource."
+
+016
+Another policy: "Anyone can perform any kind of action on any kind of resource if current-time is 08:23:47-05:00."
+
+021
+Here is my last policy. Thank you! "Anyone can perform any kind of action on any kind of resource if there is a current-time attribute."
+PROBLEMA: SBAGLIA TUTTE LE POLICY OTTENUTE!! NON validano, in quanto:
+1. L'intestazione è formalmente sbagliata: <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" 
+
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
+Inoltre, mancano: PolicyId="..." e  RuleCombiningAlgId="..." a livello di radice.
+
+2. Aggiustando l'intestazione, vedo che ci sono errori formali grossolani, tipo: 
+  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:access-bart-simpson-medical-record</PolicyId>
+  
+      - <ResourceMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:resource:medical-record:bart-simpson</ResourceMatch>
+      - <ActionMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:action:read</ActionMatch>
+      - Annidamenti sbagliati per <Targets>
+      
+      Provo a vedere se mettendo a posto l'intestazione si ottengono risultati che validano.

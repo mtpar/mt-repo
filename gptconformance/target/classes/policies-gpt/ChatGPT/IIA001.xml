@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
-        PolicyId="HibbertAccessToBartMedicalRecord"
-        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"   
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:medical-record-access"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
         Version="1.0">
+    <!-- Target: Only applies to the medical record of Bart Simpson -->
+    <Target>
+        <Resources>
+            <Resource>
+                <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                        urn:sedclab:names:tc:xacml:2.0:gpt-tests:resource:medical-record:bartsimpson
+                    </AttributeValue>
+                    <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                                DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </ResourceMatch>
+            </Resource>
+        </Resources>
+    </Target>
     
-    <Target/>
-
-    <!-- Rule for Julius Hibbert to read or write Bart Simpson's medical record -->
-    <Rule RuleId="HibbertCanReadWriteBartMedicalRecord" Effect="Permit">
+    <!-- Rule: Allow Julius Hibbert to read or write Bart Simpson's medical record -->
+    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-read-write"
+          Effect="Permit">
         <Target>
             <Subjects>
                 <Subject>
                     <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Julius Hibbert</AttributeValue>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            urn:sedclab:names:tc:xacml:2.0:gpt-tests:subject:julius-hibbert
+                        </AttributeValue>
                         <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
                                                     DataType="http://www.w3.org/2001/XMLSchema#string"/>
                     </SubjectMatch>
                 </Subject>
             </Subjects>
-            <Resources>
-                <Resource>
-                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">BartSimpsonMedicalRecord</AttributeValue>
-                        <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
-                                                     DataType="http://www.w3.org/2001/XMLSchema#string"/>
-                    </ResourceMatch>
-                </Resource>
-            </Resources>
+            
             <Actions>
                 <Action>
                     <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            read
+                        </AttributeValue>
                         <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
                                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
                     </ActionMatch>
                 </Action>
                 <Action>
                     <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            write
+                        </AttributeValue>
                         <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
                                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
                     </ActionMatch>
@@ -45,5 +59,4 @@
             </Actions>
         </Target>
     </Rule>
-
 </Policy>

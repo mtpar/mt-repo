@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
+  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:access-all-resources-if-current-time-attribute-exists</PolicyId>
+  <PolicyVersion>1.0</PolicyVersion>
+  <Issuer>urn:sedclab:names:tc:xacml:2.0:gpt-tests:issuer</Issuer>
+  <Target>
+    <Targets>
+      <Target>
+        <Resources>
+          <Resource>
+            <ResourceMatch>*</ResourceMatch>  </Resource>
+        </Resources>
+        <Actions>
+          <Action>
+            <ActionMatch>*</ActionMatch>  </Action>
+        </Actions>
+      </Target>
+    </Targets>
+  </Target>
+  <Rule>
+    <RuleId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-access-all-resources-if-current-time-attribute-exists</RuleId>
+    <Effect>Permit</Effect>
+    <Apply>
+      <Apply>
+        <Function>urn:oasis:names:tc:xacml:1.0:functions:string:exists</Function>
+        <Attribute>
+          <AttributeId>urn:oasis:names:tc:xacml:1.0:context:subject:Attribute:current-time</AttributeId>
+        </Attribute>
+      </Apply>
+    </Apply>
+  </Rule>
+</Policy>

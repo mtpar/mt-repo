@@ -1,36 +1,41 @@
-<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
-          PolicySetId="ExamplePolicySet"
-          PolicyCombiningAlg="urn:oasis:names:tc:xacml:2.0:policy-combining-algorithm:permit-overrides">
-
-  <Policy PolicyId="Age45AccessPolicy" RuleCombiningAlg="urn:oasis:names:tc:xacml:2.0:rule-combining-algorithm:permit-overrides">
-    <Target>
-      <Subjects>
-        <Subject>
-          <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:integer-equal">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">45</AttributeValue>
-          </SubjectMatch>
-          <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:attribute-category:subject"
-                             AttributeId="age"
-                             MustBePresent="true"
-                             DataType="http://www.w3.org/2001/XMLSchema#integer"/>
-        </Subject>
-      </Subjects>
-      <Resources>
-        <Resource>
-          <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:any">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
-          </ResourceMatch>
-        </Resource>
-      </Resources>
-      <Actions>
-        <Action>
-          <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:any">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string"/>
-          </ActionMatch>
-        </Action>
-      </Actions>
-    </Target>
-    <Rule RuleId="Age45AccessRule" Effect="Permit">
-      </Rule>
-  </Policy>
-</PolicySet>
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
+  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:access-all-resources-at-specific-time</PolicyId>
+  <PolicyVersion>1.0</PolicyVersion>
+  <Issuer>urn:sedclab:names:tc:xacml:2.0:gpt-tests:issuer</Issuer>
+  <Target>
+    <Targets>
+      <Target>
+        <Resources>
+          <Resource>
+            <ResourceMatch>*</ResourceMatch>  </Resource>
+        </Resources>
+        <Actions>
+          <Action>
+            <ActionMatch>*</ActionMatch>  </Action>
+        </Actions>
+      </Target>
+    </Targets>
+  </Target>
+  <Rule>
+    <RuleId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-access-all-resources-at-specific-time</RuleId>
+    <Effect>Permit</Effect>
+    <Apply>
+      <Apply>
+        <Function>urn:oasis:names:tc:xacml:1.0:functions:dateTime:current-dateTime</Function>
+      </Apply>
+      <And>
+        <Apply>
+          <Function>urn:oasis:names:tc:xacml:1.0:functions:string:equals</Function>
+          <Function>urn:oasis:names:tc:xacml:1.0:functions:dateTime:format</Function>
+          <Value>yyyy-MM-ddThh:mm:ssZ</Value>
+        </Apply>
+        <Apply>
+          <Function>urn:oasis:names:tc:xacml:1.0:functions:string:equals</Function>
+          <Function>urn:oasis:names:tc:xacml:1.0:functions:dateTime:format</Function>
+          <Value>2024-04-17T08:23:47-05:00</Value>
+        </Apply>
+      </And>
+    </Apply>
+  </Rule>
+</Policy>

@@ -1,0 +1,49 @@
+CLAUDE
+
+Strategia di prompting: fornisco un "cappello" introduttivo con tutte le info che ritengo utili, elenco quante domande voglio fare e poi le passo una ad una. 
+
+***A***
+Basta un cappello poco dettagliato, altrimenti Claude chiede di fornire ruoli, attributi di ambiente e altre specifiche che non abbiamo.
+INTRO:
+I need to translate into XACML2 some policies. Please note that resources are identified via urns 
+and that the base namespace is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Please, include XACML2 
+schema declaration in every XML document you will produce. Are you ready? 
+
+001.
+Here is the first of five policies:  "Julius Hibbert can read or write Bart Simpson's medical record."
+
+003.
+Here is the second policy: "A subject with a "bogus" attribute with a value of "Physician" can read or write Bart Simpson's medical record."
+
+010
+Here's the next one: "Anyone who is 45 integer years old may perform any kind of action on any kind of resource."
+
+016
+Another policy: "Anyone can perform any kind of action on any kind of resource if current-time is 08:23:47-05:00."
+
+021
+Here is my last policy. Thank you! "Anyone can perform any kind of action on any kind of resource if there is a current-time attribute."
+
+Commento: tutte le policy prodotte sono valide.
+
+IMPORTANTE: Claude produce spiegazioni dettagliate, i.e. ha cognizione di causa di concetti base di XACML. Esempio:
+"""
+This XACML 2.0 policy document implements the given policy. Here's a breakdown of the key elements:
+
+The Policy element uses the required XACML 2.0 schema and namespace.
+The PolicyId uses the base namespace you provided.
+The Rule allows any subject to perform any action on any resource if the current-time attribute exists.
+Instead of using a Target, this policy uses a Condition to check for the existence of the current-time attribute.
+The Condition uses the time-is-in function, which will return true if the current-time attribute exists, regardless of its value.
+The EnvironmentAttributeDesignator looks for the current-time attribute in the environment.
+There are no specific Subject, Resource, or Action elements in the Target, which means this policy applies to all subjects, resources, and actions.
+
+Key points to note:
+
+This policy assumes that the current time will be provided as an environment attribute named "urn:oasis:names:tc:xacml:1.0:environment:current-time".
+The policy will match if the current-time attribute exists, regardless of its value. This means it will allow access at any time of day, as long as the time is provided.
+Since there's no specification of subjects, resources, or actions in the Target or Rule, this policy will apply to all subjects, all resources, and all actions.
+This policy is more permissive than the previous one, as it doesn't restrict access to a specific time.
+
+Is there anything you'd like me to modify or explain further about this policy? This completes the set of five policies you requested. Is there anything else you need assistance with regarding these XACML 2.0 policies?
+"""

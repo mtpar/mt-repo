@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        PolicyId="hibbert-simpson-medical-record-access"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:hibbert-simpson-policy"
         RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+
+  <Description>Julius Hibbert can read or write Bart Simpson's medical record.</Description>
+
   <Target/>
-  <Rule RuleId="allow-hibbert-read-write" Effect="Permit">
+
+  <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:hibbert-simpson-rule" Effect="Permit">
+    <Description>Allow Julius Hibbert to read or write Bart Simpson's medical record</Description>
     <Target>
       <Subjects>
         <Subject>
@@ -17,7 +23,7 @@
       <Resources>
         <Resource>
           <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Bart Simpson's medical record</AttributeValue>
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">urn:sedclab:names:tc:xacml:2.0:gpt-tests:resource:medical-record:bart-simpson</AttributeValue>
             <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
           </ResourceMatch>
         </Resource>

@@ -75,7 +75,7 @@ public class TestUtil {
      * @param expectedResponse  expected response from a file
      * @return True/False
      */
-    public static boolean isMatching(ResponseCtx resultResponse, ResponseCtx expectedResponse) {
+    public static boolean checkIfMatching(ResponseCtx resultResponse, ResponseCtx expectedResponse) {
 
         Set<AbstractResult> results = resultResponse.getResults();
         Set<AbstractResult> expectedResults = expectedResponse.getResults();
@@ -106,6 +106,7 @@ public class TestUtil {
 
             List<String> attributesList = new ArrayList <String>();
 
+            /*
             if(result instanceof Result){
                 Result xacml3Result = (Result) result;
                 if(xacml3Result.getAttributes() != null){
@@ -114,7 +115,8 @@ public class TestUtil {
                     }
                 }
             }
-
+             */
+            
             for(AbstractResult expectedResult : expectedResults){
 
                 int decisionExpected = expectedResult.getDecision();
@@ -185,6 +187,40 @@ public class TestUtil {
                     }
                 }
 
+                // if only XACML 3.0. result
+                if(expectedResult instanceof Result){
+
+                    Result xacml3Result = (Result) expectedResult;
+                    List<String> attributesExpected = new ArrayList <String>();
+
+                    if(xacml3Result.getAttributes() != null){
+                        for(Attributes  attributes : xacml3Result.getAttributes()){
+                            attributesExpected.add(attributes.encode());
+                        }
+                    }
+
+                    if(attributesList.size() != attributesExpected.size()){
+                        continue;
+                    }
+
+                    if(attributesList.size() > 0){
+                        boolean attributeContains = false;
+                        for(String attribute : attributesList){
+                            if(!attributesExpected.contains(attribute)){
+                                attributeContains = false;
+                                break;
+                            } else {
+                                attributeContains = true;
+                            }
+                        }
+
+                        if(!attributeContains){
+                            continue;
+                        }
+                    }
+                }
+                match = true;
+                break;
             }
 
             if(match){
@@ -200,7 +236,7 @@ public class TestUtil {
                     "Result received from the PDP is matched with expected result");
         } else {
             log.info("Test is Failed........!!!     " +
-                    "Result received from the PDP is NOT matched with expected result");
+                    "Result received from the PDP is NOT match with expected result");
         }
         return finalResult;
     }
@@ -238,24 +274,16 @@ public class TestUtil {
     /**
      * This creates the XACML request from a file
      *
-     * @param rootDirectory   root directory of the  request files
      * @param versionDirectory   version directory of the  request files
      * @param requestId  request file name
      * @return String or null if any error
      */
-    public static String createRequest(String rootDirectory,
-                                       String requestId){
+    public static String createRequest(String requestId){
 
         File file = new File(".");
         StringWriter writer = null;
         try{
-        	/*
-            String filePath =  file.getCanonicalPath() + File.separator +   TestConstants.RESOURCE_PATH +
-                    File.separator + rootDirectory + File.separator + versionDirectory +
-                    File.separator + TestConstants.REQUEST_DIRECTORY + File.separator + requestId;*/
-        	
-        	
-        	 String filePath =  TestConstants.REQUESTS_PATH + requestId;
+            String filePath =  TestConstants.REQUESTS_PATH  + requestId;
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringComments(true);
@@ -288,17 +316,16 @@ public class TestUtil {
     /**
      * This creates the expected XACML response from a file
      *
-     * @param rootDirectory   root directory of the  response files
      * @param versionDirectory   version directory of the  response files
      * @param responseId  response file name
      * @return ResponseCtx or null if any error
      */
-    public static ResponseCtx createResponse(String rootDirectory, String responseId) {
+    public static ResponseCtx createResponse(
+                                             String responseId) {
 
         File file = new File(".");
         try{
-            String filePath =  TestConstants.RESPONSES_PATH + File.separator + responseId;
-
+            String filePath =  TestConstants.RESPONSES_PATH + responseId;
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringComments(true);
             factory.setNamespaceAware(true);

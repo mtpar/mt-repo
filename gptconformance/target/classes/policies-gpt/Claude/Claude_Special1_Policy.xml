@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           PolicySetId="urn:sedclab:names:tc:xacml:2.0:hospitalexample:policyset:hospital-admin"
+           PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+  
+  <Description>Hospital Administration Access Control Policy</Description>
+  
+  <Target/>
+  
+  <Policy PolicyId="urn:sedclab:names:tc:xacml:2.0:hospitalexample:policy:clinical-records"
+          RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+    <Description>Policy for accessing clinical records</Description>
+    <Target/>
+    
+    <!-- Rule 1: Everyone aged 45 or more can read and write Gianni Rossi's clinical record -->
+    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:hospitalexample:rule:gianni-rossi-record-access" Effect="Permit">
+      <Description>Allow read and write access to Gianni Rossi's clinical record for people aged 45 or more</Description>
+      <Target>
+        <Resources>
+          <Resource>
+            <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">urn:sedclab:names:tc:xacml:2.0:hospitalexample:resource:clinical-record:gianni-rossi</AttributeValue>
+              <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+            </ResourceMatch>
+          </Resource>
+        </Resources>
+        <Actions>
+          <Action>
+            <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+              <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+            </ActionMatch>
+          </Action>
+          <Action>
+            <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
+              <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+            </ActionMatch>
+          </Action>
+        </Actions>
+      </Target>
+      <Condition>
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+          <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+            <SubjectAttributeDesignator AttributeId="urn:sedclab:names:tc:xacml:2.0:hospitalexample:subject:age" DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+          </Apply>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">45</AttributeValue>
+        </Apply>
+      </Condition>
+    </Rule>
+    
+    <!-- Rule 2: Anyone can read any clinical record -->
+    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:hospitalexample:rule:read-any-clinical-record" Effect="Permit">
+      <Description>Allow anyone to read any clinical record</Description>
+      <Target>
+        <Resources>
+          <Resource>
+            <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-regexp-match">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">urn:sedclab:names:tc:xacml:2.0:hospitalexample:resource:clinical-record:.*</AttributeValue>
+              <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </ResourceMatch>
+          </Resource>
+        </Resources>
+        <Actions>
+          <Action>
+            <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+              <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+            </ActionMatch>
+          </Action>
+        </Actions>
+      </Target>
+    </Rule>
+  </Policy>
+</PolicySet>

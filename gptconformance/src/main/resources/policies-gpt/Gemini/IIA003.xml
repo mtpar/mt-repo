@@ -1,41 +1,42 @@
-<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
-          PolicySetId="ExamplePolicySet"
-          PolicyCombiningAlg="urn:oasis:names:tc:xacml:2.0:policy-combining-algorithm:permit-overrides">
-
-  <Policy PolicyId="PhysicianAccessPolicy" RuleCombiningAlg="urn:oasis:names:tc:xacml:2.0:rule-combining-algorithm:permit-overrides">
-    <Target>
-      <Subjects>
-        <Subject>
-          <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Physician</AttributeValue>
-          </SubjectMatch>
-          <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:attribute-category:subject"
-                             AttributeId="bogus"
-                             MustBePresent="true"
-                             DataType="http://www.w3.org/2001/XMLSchema#string"/>
-        </Subject>
-      </Subjects>
-      <Resources>
-        <Resource>
-          <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Bart Simpson</AttributeValue>
-          </ResourceMatch>
-        </Resource>
-      </Resources>
-      <Actions>
-        <Action>
-          <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
-          </ActionMatch>
-        </Action>
-        <Action>
-          <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
-          </ActionMatch>
-        </Action>
-      </Actions>
-    </Target>
-    <Rule RuleId="PhysicianAccessRule" Effect="Permit">
-      </Rule>
-  </Policy>
-</PolicySet>
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
+  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:access-bart-simpson-medical-record-bogus-physician</PolicyId>
+  <PolicyVersion>1.0</PolicyVersion>
+  <Issuer>urn:sedclab:names:tc:xacml:2.0:gpt-tests:issuer</Issuer>
+  <Target>
+    <Targets>
+      <Target>
+        <Resources>
+          <Resource>
+            <ResourceMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:resource:medical-record:bart-simpson</ResourceMatch>
+          </Resource>
+        </Resources>
+        <Actions>
+          <Action>
+            <ActionMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:action:read</ActionMatch>
+          </Action>
+          <Action>
+            <ActionMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:action:write</ActionMatch>
+          </Action>
+        </Actions>
+        <Subjects>
+          <Subject>
+            <Attributes>
+              <Attribute>
+                <AttributeId>urn:oasis:names:tc:xacml:1.0:context:subject:Attribute:bogus</AttributeId>
+                <DataType>http://www.w3.org/2001/XMLSchema#string</DataType>
+                <AttributeValue>
+                  <xsi:type xsi:type="http://www.w3.org/2001/XMLSchema#string">Physician</xsi:type>
+                </AttributeValue>
+              </Attribute>
+            </Attributes>
+          </Subject>
+        </Subjects>
+      </Target>
+    </Targets>
+  </Target>
+  <Rule>
+    <RuleId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-access-bart-simpson-medical-record-bogus-physician</RuleId>
+    <Effect>Permit</Effect>
+  </Rule>
+</Policy>
