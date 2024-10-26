@@ -75,7 +75,7 @@ public class EnginesTestV2{
    	String request = TestUtil.createRequest(shortName + "Request.xml");
    	
    	if(request != null){
-   		 log.info("Request that is sent to the PDP :  " + request);
+   		 log.info("*****	SENDING CHATGPT REQUEST	*******	"+shortName);
    		Set<String> policies = new HashSet<String>();
    		policies.add(shortName);                
    		ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_CLAUDE), request);
@@ -110,7 +110,7 @@ public class EnginesTestV2{
 	   String request = TestUtil.createRequest(shortName + "Request.xml");
 	   
 	   if(request != null){
-		   log.info("Request that is sent to the PDP :  " + request);
+		   log.info("*****	SENDING CLAUDE REQUEST	*******");
 		   Set<String> policies = new HashSet<String>();
 		   policies.add(shortName);                
 		   ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_CLAUDE), request);
@@ -145,7 +145,7 @@ public class EnginesTestV2{
 	   String request = TestUtil.createRequest(shortName + "Request.xml");
 	   
 	   if(request != null){
-		   log.info("Request that is sent to the PDP :  " + request);
+		   log.info("*****	SENDING GEMINI REQUEST	FOR*******	"+shortName);
 		   Set<String> policies = new HashSet<String>();
 		   policies.add(shortName);                
 		   ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_CLAUDE), request);
@@ -179,7 +179,7 @@ public class EnginesTestV2{
     public void testOfficial() throws Exception {
 
 
-            log.info(" - Conformance Test " + shortName + " is started");
+	   log.info("*****	SENDING GEMINI REQUEST	FOR*******"+shortName);
 
             String request = TestUtil.createRequest(shortName + "Request.xml");
           
