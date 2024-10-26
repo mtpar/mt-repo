@@ -1,15 +1,41 @@
 GEMINI
 
 Strategia di prompting: fornisco un "cappello" introduttivo con tutte le info che ritengo utili, elenco quante domande voglio fare e poi le passo una ad una. 
+Anzitutto abbiamo visto un primo PROBLEMA: le policy NON validano, in quanto:
+
+1. L'intestazione è formalmente sbagliata: <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" 
+
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
+
+2. Inoltre, mancano: PolicyId="..." e  RuleCombiningAlgId="..." a livello di radice.
+
+Manca anche l'intestazione 'XML' in cima a ciascun documento
+
+3. Anche aggiuistanto a mano l'intestazione, vedo che ci sono errori formali grossolani, tipo: 
+  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:access-bart-simpson-medical-record</PolicyId>
+  
+      - <ResourceMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:resource:medical-record:bart-simpson</ResourceMatch>
+      - <ActionMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:action:read</ActionMatch>
+      
+            - Annidamenti sbagliati per <Targets>
+      
+
+Gemini nel rispondere aggiunge: "Consider using attribute-based access control (ABAC) for more granular control over resource attributes and user permissions." 
+Quindi lui di default NON usa ABAC e questo produce vari errori, . Provo allora a esplicitare nel prompt che ABAC deve essere usato come policy strategy.
+Le cose migliorano se chiedo di usare ABAC, in quanto sono introdotti gli attributi "xxxId", tuttavia continuano ad esserci errori nella struttura del documento.
+
+Provo ad usare un pattern di tipo "ruolo", ovvero dico al GPT di comportarsi come un XML expert. Nonostante lui dica di essere in grado di validare documenti rispoetto ad XSD,
+in realtà fornisce A ME suggerimenti su come scrivere IO un documento di policy che sia valido. Provo comunque a dargli A MANO l'XSD e a chiedergli di creare una policy valida.
+
+
 
 ***A***
 
 INTRO:
-I need to translate into XACML2 some access policies for a hospital organization. Please note that resources such as medical records are identified via urns 
-and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Please, include xml 
-schema declaration in every document: declaration administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids.  
-Please note that records are identified via urns and that the base namespace is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. 
-Don't forget to add statements for XMLSchema declaration at the root level. Are you ready?
+I need to translate into XACML2 some access policies for an organization. Please note that resources such as personal records are identified via urns 
+and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Please, include statements for XML 
+schema declaration in every document at the root level. Are you ready?
 
 001.
 I have a set of 5 policies to translate according to the previous specifications. Here is the first:  "Julius Hibbert can read or write Bart Simpson's medical record."
@@ -25,18 +51,18 @@ Another policy: "Anyone can perform any kind of action on any kind of resource i
 
 021
 Here is my last policy. Thank you! "Anyone can perform any kind of action on any kind of resource if there is a current-time attribute."
-PROBLEMA: SBAGLIA TUTTE LE POLICY OTTENUTE!! NON validano, in quanto:
-1. L'intestazione è formalmente sbagliata: <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" 
-
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
-Inoltre, mancano: PolicyId="..." e  RuleCombiningAlgId="..." a livello di radice.
-
-2. Aggiustando l'intestazione, vedo che ci sono errori formali grossolani, tipo: 
-  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:access-bart-simpson-medical-record</PolicyId>
-  
-      - <ResourceMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:resource:medical-record:bart-simpson</ResourceMatch>
-      - <ActionMatch>urn:sedclab:names:tc:xacml:2.0:gpt-tests:action:read</ActionMatch>
-      - Annidamenti sbagliati per <Targets>
       
-      Provo a vedere se mettendo a posto l'intestazione si ottengono risultati che validano.
+***B***
+
+
+IB001 
+Anyone can perform any kind of action on any kind of resource. (cambiato 'any subject' in 'anyone')
+
+
+IB002 
+Anyone can read or write any kind of resource.
+
+
+IB004 
+Anyone can read any resource or can write any resource with "aluminum" Quality of Service. 
+

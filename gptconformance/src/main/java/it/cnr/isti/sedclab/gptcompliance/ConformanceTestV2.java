@@ -41,7 +41,8 @@ public class ConformanceTestV2{
     
     @Parameters
     public static Iterable<? extends Object> gpts() {
-    	return Arrays.asList(TestConstants.GENERATOR_NONE,TestConstants.GENERATOR_CGPT,TestConstants.GENERATOR_CLAUDE,TestConstants.GENERATOR_COPILOT,TestConstants.GENERATOR_GEMINI);
+    	return Arrays.asList(TestConstants.GENERATOR_NONE,TestConstants.GENERATOR_CGPT,TestConstants.GENERATOR_CLAUDE,TestConstants.GENERATOR_GEMINI);
+    	//return Arrays.asList("IIA016","IIB004");
     }
     
 

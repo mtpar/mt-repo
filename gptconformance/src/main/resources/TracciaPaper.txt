@@ -1,0 +1,12 @@
+POSSIBILE TRACCIA PAPER
+-----------------------
+
+Premesso che scrivere policies in un linguaggio specializzato pu� risultare molto dispendioso in termini di tempo e risorse, e quindi i LLM possono venirci in aiuto,
+abbiamo deciso di testare 4 GPT popolari (su quale base abbiamo fatto la scelta?) nella versione non a pagamento e senza un training specifico, su un sottoinsieme di
+policy estratte dalla Compliance test suite di OASIS per vedere come si comportano.
+In mancanza di training (necessario se si volessero fare policy relative ad una organizzazione complessa con uno specifico dominio definito da documenti amministrativi, organigrammi, etc.), 
+abbiamo lavorato sui prompt per ottimizzare le risposte ottenute. Abbiamo quindi richiesto esplicitamente che fossero tenute in conto alcune informazioni basilari, come il namespace, la dichiarazione dello schema e il fatto che le le risorse vanno riferite come urn
+(VERIFICA PER QUALE GPT VA FATTO QUESTO). In questo modo, abbiamo ottenuto documenti XML validabili against lo schema senza dover fare ulteriori modifiche. 
+In seconda battuta, abbiamo visto che per alcuni GPT era necessario aggiungere altre richieste nei prompt, sintetizzate in tabella X.
+
+Importante: nei prompt abbiamo tenuto presente lo scopo dei Conformance test, in modo da poter avere delle policy compliant con le request da fare nella test suite ufficiale.

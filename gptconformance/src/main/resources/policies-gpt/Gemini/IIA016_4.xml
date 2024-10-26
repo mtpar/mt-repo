@@ -1,0 +1,18 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os 
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+        PolicyId="AllowAllAtSpecificTime"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithms:or">
+  <Target>
+    </Target>
+  <Rule>
+    <Effect>Permit</Effect>
+    <Condition>
+      <Apply Function="urn:oasis:names:tc:xacml:1.0:functions:dateTime-equals">
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">2024-10-22T08:23:47-05:00</AttributeValue>
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">Environment.CurrentTime</AttributeValue>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

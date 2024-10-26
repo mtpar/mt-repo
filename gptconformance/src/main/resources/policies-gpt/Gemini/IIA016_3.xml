@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:1.0 http://www.oasis-open.org/committees/xacml/documents/xacml-schema/2.0/xacml-policy-2.0.xsd">
+  <PolicyId>urn:example:policies:anytime-policy</PolicyId>
+  <PolicyVersion>1.0</PolicyVersion>
+  <Target>
+    <AnyAll>
+      <All>
+        <Any>
+          <Subject>
+            <AnyAll>
+              <All/>
+            </AnyAll>
+          </Subject>
+          <Resource>
+            <AnyAll>
+              <All/>
+            </AnyAll>
+          </Resource>
+          <Action>
+            <AnyAll>
+              <All/>
+            </AnyAll>
+          </Action>
+        </Any>
+      </All>
+    </AnyAll>
+  </Target>
+  <Rule>
+    <RuleId>urn:example:rules:anytime-rule</RuleId>
+    <Effect>Permit</Effect>
+    <Condition>
+      <Apply xmlns:fn="urn:oasis:names:tc:xacml:1.0:functions">
+        <Function>fn:dateTimeEquals</Function>
+        <FunctionArgument>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">2024-10-22T08:23:47-05:00</AttributeValue>
+        </FunctionArgument>
+        <FunctionArgument>
+          <Apply xmlns:fn="urn:oasis:names:tc:xacml:1.0:functions">
+            <Function>fn:current-time</Function>
+          </Apply>
+        </FunctionArgument>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

@@ -47,3 +47,10 @@ This policy is more permissive than the previous one, as it doesn't restrict acc
 
 Is there anything you'd like me to modify or explain further about this policy? This completes the set of five policies you requested. Is there anything else you need assistance with regarding these XACML 2.0 policies?
 """
+
+***B***
+IB001 Any Subject can perform any action on any resource.
+IB002 Any Subject can read or write any resource.
+IB004 Any Subject can read any resource or can write any resource with "aluminum" Quality of Service.
+
+Tutte le policy ottenute validano (viene usata la stessa intro)

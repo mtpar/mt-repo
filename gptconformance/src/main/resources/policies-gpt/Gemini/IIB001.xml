@@ -1,0 +1,11 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
+  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:universal-access</PolicyId>
+  <PolicyVersion>1.0</PolicyVersion>
+  <Issuer>urn:sedclab:names:tc:xacml:2.0:gpt-tests:issuer</Issuer>
+  <Target>
+    </Target>
+  <Rule>
+    <RuleId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:universal-access</RuleId>
+    <Effect>Permit</Effect>
+  </Rule>
+</Policy>

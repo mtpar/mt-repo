@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:read-all-write-aluminum-policy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+
+  <Description>Any Subject can read any resource or can write any resource with 'aluminum' Quality of Service.</Description>
+
+  <Target/>
+
+  <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:read-all-rule" Effect="Permit">
+    <Description>Allow read actions on any resource for any subject</Description>
+    <Target>
+      <Actions>
+        <Action>
+          <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+            <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          </ActionMatch>
+        </Action>
+      </Actions>
+    </Target>
+  </Rule>
+
+  <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:write-aluminum-rule" Effect="Permit">
+    <Description>Allow write actions on any resource for any subject with 'aluminum' Quality of Service</Description>
+    <Target>
+      <Actions>
+        <Action>
+          <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
+            <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          </ActionMatch>
+        </Action>
+      </Actions>
+    </Target>
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+          <EnvironmentAttributeDesignator AttributeId="urn:sedclab:names:tc:xacml:2.0:environment:qos" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+        </Apply>
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">aluminum</AttributeValue>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>
+
+<!--
+Key points to note:
+
+The first Rule ("read-all-rule") allows any subject to read any resource without any additional conditions.
+The second Rule ("write-aluminum-rule") allows any subject to write any resource, but only if the Quality of Service is "aluminum".
+The Quality of Service is implemented as an Environment Attribute. This assumes that the QoS will be provided in the request context as an environment attribute named "urn:sedclab:names:tc:xacml:2.0:environment:qos".
+If a write request comes in without the "aluminum" QoS, it will not be permitted by this policy.
+This policy does not explicitly deny any actions. If an action doesn't match either of these rules (e.g., a delete action, or a write action with a different QoS), the policy will simply not apply, allowing other policies to potentially permit the action.
+-->

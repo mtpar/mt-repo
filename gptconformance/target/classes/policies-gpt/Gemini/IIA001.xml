@@ -1,21 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://docs.oasis-open.org/xacml/2.0/xacml-policy-2.0-schema.xsd">
-
-<!-- This is correct, BUT it is not provided:
 <Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os 
-                            http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
-        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:julius-hibbert-bart-simpson"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"   
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:medical-record-access"
         RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
         Version="1.0">
--->        
-
-  
-  <PolicyId>urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:access-bart-simpson-medical-record</PolicyId>
-  <PolicyVersion>1.0</PolicyVersion>
   <Issuer>urn:sedclab:names:tc:xacml:2.0:gpt-tests:issuer</Issuer>
   <Target>
     <Targets>

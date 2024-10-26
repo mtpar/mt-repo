@@ -5,10 +5,12 @@ Strategia di prompting: fornisco un "cappello" introduttivo con tutte le info ch
 ***A***
 
 INTRO:
-I need to translate into XACML2 some access policies for a hospital organization. Please note that resources such as medical records are identified via urns 
+You are software developer and XML expert. I need to translate into XACML2 some access policies for an organization.  
+
+Please note that resources such as medical records are identified via urns 
 and that the base namespace for the administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Please, include xml 
 schema declaration in every document: declaration administration is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids.  
-Please note that records are identified via urns and that the base namespace is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. 
+
 Don't forget to add statements for XMLSchema declaration at the root level. Are you ready?
 
 001.
@@ -29,3 +31,33 @@ Here is my last policy. Thank you! "Anyone can perform any kind of action on any
 Le policy ottenute validano. Questo è un ottimo risultato in quanto senza le indicazioni sul riferimento a xsd non avremmo avuto un XML corretto.
 Inoltre, lasciando "any" al posto di "any kind of" avremmo avuto tag inesistenti come "AnyUser/AnyResource" e se non avessimo specificato che le risorse erano formalizzate
 come urn sarebbero state trattate come stringhe.
+
+ <Target>
+            <Subjects>
+                <AnySubject/>
+            </Subjects>
+            <Resources>
+                <AnyResource/>
+            </Resources>
+            <Actions>
+                <AnyAction/>
+            </Actions>
+        </Target>
+ 
+***B*** 
+[INTRO COME SOPRA]
+IMPORTANTE: nonostante la intro, le policy non sono corrette in quanto vengono usati tag tipo <AnyXxx>. Dopo ogni richiesta che produceva policy non valide, ho richiesto esplicitamente
+di riscriverla in modo che validasse rispetto allo schema specificato. I risultati di questa seconda tornata sono quelli finali che ho salvato come definitivi.
+
+IB001 
+Anyone can perform any kind of action on any kind of resource. (cambiato 'any subject' in 'anyone')
+
+
+IB002 
+Anyone can read or write any kind of resource.
+
+
+IB004 
+Anyone can read any resource or can write any resource with "aluminum" Quality of Service. 
+     
+        

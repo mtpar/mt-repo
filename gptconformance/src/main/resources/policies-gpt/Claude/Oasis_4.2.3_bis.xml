@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy 
+    xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+    PolicyId="urn:hospital:medical-records-policy"
+    RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+    
+    <Description>
+        Access control policy for medical records based on patient relationships and roles
+    </Description>
+    
+    <Target/>
+    
+    <!-- Rule 1: Patient access to own records -->
+    <Rule RuleId="urn:hospital:rules:patient-self-access" Effect="Permit">
+        <Description>A person may read any record for which they are the designated patient</Description>
+        <Target>
+            <Actions>
+                <Action>
+                    <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+                        <ActionAttributeDesignator 
+                            AttributeId="urn:hospital:action:type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ActionMatch>
+                </Action>
+            </Actions>
+        </Target>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                    <SubjectAttributeDesignator 
+                        AttributeId="urn:hospital:subject:patient-number"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </Apply>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                    <ResourceAttributeDesignator 
+                        AttributeId="urn:hospital:resource:patient-number"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+
+    <!-- Rule 2: Parent/Guardian access to minor's records -->
+    <Rule RuleId="urn:hospital:rules:guardian-access" Effect="Permit">
+        <Description>Parent/guardian access to records of patients under 16</Description>
+        <Target>
+            <Actions>
+                <Action>
+                    <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+                        <ActionAttributeDesignator 
+                            AttributeId="urn:hospital:action:type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ActionMatch>
+                </Action>
+            </Actions>
+        </Target>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <!-- Check if requester is parent/guardian -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                        <SubjectAttributeDesignator 
+                            AttributeId="urn:hospital:subject:id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Apply>
+                    <ResourceAttributeDesignator 
+                        AttributeId="urn:hospital:resource:guardian-ids"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </Apply>
+                <!-- Check if patient is under 16 -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-less-than">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                        <ResourceAttributeDesignator 
+                            AttributeId="urn:hospital:resource:patient-age"
+                            DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">16</AttributeValue>
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+
+    <!-- Rule 3: Physician write access with email notification -->
+    <Rule RuleId="urn:hospital:rules:physician-write" Effect="Permit">
+        <Description>Physician can write to medical elements with email notification</Description>
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">PHYSICIAN</AttributeValue>
+                        <SubjectAttributeDesignator 
+                            AttributeId="urn:hospital:subject:role"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Actions>
+                <Action>
+                    <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
+                        <ActionAttributeDesignator 
+                            AttributeId="urn:hospital:action:type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ActionMatch>
+                </Action>
+            </Actions>
+        </Target>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                    <SubjectAttributeDesignator 
+                        AttributeId="urn:hospital:subject:id"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </Apply>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                    <ResourceAttributeDesignator 
+                        AttributeId="urn:hospital:resource:primary-physician-id"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+
+    <!-- Rule 4: Explicitly deny administrator access to medical elements -->
+    <Rule RuleId="urn:hospital:rules:admin-deny" Effect="Deny">
+        <Description>Administrators cannot read or write medical elements</Description>
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ADMINISTRATOR</AttributeValue>
+                        <SubjectAttributeDesignator 
+                            AttributeId="urn:hospital:subject:role"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">medical-element</AttributeValue>
+                        <ResourceAttributeDesignator 
+                            AttributeId="urn:hospital:resource:type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+            <Actions>
+                <Action>
+                    <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">^(read|write)$</AttributeValue>
+                        <ActionAttributeDesignator 
+                            AttributeId="urn:hospital:action:type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ActionMatch>
+                </Action>
+            </Actions>
+        </Target>
+    </Rule>
+
+    <!-- Default deny rule -->
+    <Rule RuleId="urn:hospital:rules:default-deny" Effect="Deny">
+        <Description>Default deny if no other rules match</Description>
+        <Target/>
+    </Rule>
+
+    <!-- Policy-level Obligations -->
+    <Obligations>
+        <Obligation 
+            ObligationId="urn:hospital:obligation:send-email" 
+            FulfillOn="Permit">
+            <AttributeAssignment 
+                AttributeId="urn:hospital:obligation:email:recipient"
+                DataType="http://www.w3.org/2001/XMLSchema#string">
+                <AttributeSelector 
+                    RequestContextPath="//xacml-context:Resource/xacml-context:ResourceAttribute[@AttributeId='urn:hospital:resource:patient-email']/AttributeValue"
+                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
+            </AttributeAssignment>
+            <AttributeAssignment 
+                AttributeId="urn:hospital:obligation:email:subject"
+                DataType="http://www.w3.org/2001/XMLSchema#string">Medical Record Update</AttributeAssignment>
+        </Obligation>
+    </Obligations>
+
+</Policy>

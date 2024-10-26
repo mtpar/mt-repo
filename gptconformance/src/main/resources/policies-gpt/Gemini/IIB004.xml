@@ -1,0 +1,48 @@
+<Policy>
+  <Target>
+    <Actions>
+      <Action>
+        <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-match">
+          <AttributeValue>read</AttributeValue>
+          <DataType>http://www.w3.org/2001/XMLSchema#string</DataType>
+        </ActionMatch>
+      </Action>
+      <Action>
+        <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-match">
+          <AttributeValue>write</AttributeValue>
+          <DataType>http://www.w3.org/2001/XMLSchema#string</DataType>
+        </ActionMatch>
+      </Action>
+    </Actions>
+    <Resources>
+      <Resource>
+        <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-match">
+          <AttributeValue>urn:example:resource:myResource</AttributeValue>
+          <DataType>http://www.w3.org/2001/XMLSchema#anyURI</DataType>
+        </ResourceMatch>
+        <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-match">
+          <AttributeValue>file</AttributeValue>
+          <DataType>http://www.w3.org/2001/XMLSchema#string</DataType>
+        </ResourceMatch>
+        <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-match">
+          <AttributeValue>aluminum</AttributeValue>
+          <DataType>http://www.w3.org/2001/XMLSchema#string</DataType>
+        </ResourceMatch>
+      </Resource>
+    </Resources>
+  </Target>
+  <Rule>
+    <RuleId>urn:example:rule:read-write-aluminum</RuleId>
+    <Effect>Permit</Effect>
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeSelector RequestContextPath="urn:oasis:names:tc:xacml:1.0:context:resource" DataType="http://www.w3.org/2001/XMLSchema#string">
+            <AttributeId>urn:example:resource:qos</AttributeId>
+          </AttributeSelector>
+          <AttributeValue>aluminum</AttributeValue>
+        </Apply>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

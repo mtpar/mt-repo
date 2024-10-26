@@ -1,5 +1,5 @@
 ***********************************
-*************	A	***************
+*************	A	(Attribute References) ***************
 ***********************************
 
 IA001
@@ -37,19 +37,24 @@ Please note that resources such as medical records are identified via urns and t
 
 
 ***********************************
-*************	B	***************
+*************	B	(Target Matching) ***************
+***********************************
+B:	001, 002, 004, 007, 010, 013, 017, 028, 030, 044, 046, 050	(tot. 12)
+IB001 Any Subject can perform any action on any resource.
+IB002 Any Subject can read or write any resource.
+IB004 Any Subject can read any resource or can write any resource with "aluminum" Quality of Service.
+
+
+
+***********************************
+*************	C	(Function Evaluation) ***************
 ***********************************
 
 
+D (Combining Algorithms)
 
 
-
-***********************************
-*************	C	***************
-***********************************
-
-
-
+E (Other Schema components)
 
 
 IIB001.	Write the following as an XACML2 policy: "Any Subject can perform any action on any resource."  Write only the xml, no plain text is needed.

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy http://www.oasis-open.org/committees/xacml/documents/xacml-schema/2.0/xacml-core-schema.xsd">
+  <Target>
+    <Any Any/>
+  </Target>
+  <Rule Effect="Permit">
+    <Condition>
+      <Apply Function="urn:oasis:names:tc:xacml:1.0:functions:current-time">
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">2024-10-22T14:23:47-05:00</AttributeValue>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

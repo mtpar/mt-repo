@@ -1,3 +1,13 @@
+--------------------------
+TEST CHE VOGLIAMO PROVARE:
+--------------------------
+A:	001, 003, 010, 016, 020, 021	(tot. 6)
+B:	001, 002, 004, 007, 010, 013, 017, 028, 030, 044, 046, 050	(tot. 12)
+C:	001, 004, 006, 018, 022, 028, 032, 036, 042, 045, 049, 051, 056, 063, 087, 094, 096, 134 (questo non ha descrizione)	(??? metterne altri ???)
+D: 	006, 008, 013, 017, 021, 025, 029	(tot. 7)
+-------------------------------------------------------------
+
+
 Policies were tested according to the mandatory-to implement functionality tests from the XACML2 OASIS committee specification conformance test suite.
 Given the high number of tests of the test suite, we decided to consider only a representative subset for each group.
 ---
@@ -15,38 +25,9 @@ These tests exercise each of the mandatory Combining Algorithms. (tot. 30 /tried
 
 E Schema components (tot 2)
 
-**************************************************
-
-PROMPT PREPARATION
-**************************************************
-TODO--> CONSIDERA DI DIVERSIFICARE I PROMPT A SECONDA DEL GPT e suddividi tra: modifiche da apportare a tutti, modifiche specifiche tailored per la risposta del motore.
-
-
-Le descrizioni prese dalle policy di test della conformance suite OASIS non possono essere usate così come sono, ma è necessario apportare alcune modifiche. Anzitutto, è necessario esplicitare il namespace che intendiamo utilizzare per gli attribute, in modo da avere una omogeneità rispetto alle request che andremo a fare, poi PER ALCUNI (sicuro ChatGPT, va visto se anche altri--> provare quali sì e quali no per fare classifica) è necessario dire che le risorse sono identificate da URN (altrimenti cerca stringhe) e combinazioni come "any resource" o "any action" (idem c.s., provare per quali motori) vanno tradotti come "any kind of resource/action", altrimenti (chetGPT) si corre il rischio di vere comparazioni con la sgtring "any" o peggio l'insersione (chatGPT) di elementi inesistenti come <AnyResource> o <AnyAction>.
-
-Esempio:
-A016: ChatGPT mette <AttributeDesignator>, ma non va bene (non mi valida). Se chiedo al bot di correggere, cmq, aggiusta di conseguenza dicendo che Time è un Environment Attribute, quindi modifica in <EnvironmentAttributeDesignator>.
-
-*************************************************
-CLAUDE: prima di elaborare la prima policy di test mi ha risposto così:
-"Certainly, I can help you translate an access policy into XACML 2.0 (eXtensible Access Control Markup Language). To create an accurate XACML policy, I'll need some specific details about the access policy you want to implement. Could you please provide more information about the policy, such as:
-
-What resources are being protected?
-Who are the subjects (users or roles) that need access?
-What actions are allowed or denied?
-Are there any conditions or time restrictions?
-Any other relevant details about the policy?
-
-Once you provide these details, I can create a corresponding XACML 2.0 policy for you. 
-Then, I'll explain the different parts of the XACML policy to ensure you understand how it works."
-In pratica, Claude cerca di definire (con il prompt i)
-
-*********************************************************
-COPILOT
-
-********************************************************
-GEMINI
-
-
+--------------------------------------------------------
+--------------------------------------------------------
+PROMPT PREPARATION: ChatGPT
+--------------------------------------------------------
 
 

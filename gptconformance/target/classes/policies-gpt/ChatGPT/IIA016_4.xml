@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+        PolicyId="time-based-access-policy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
+        Version="1.0">
+
+    <!-- Target applies to any subject, action, and resource, so no specific elements are needed -->
+    <Target/>
+
+    <!-- Rule defining the condition for time -->
+    <Rule RuleId="permit-based-on-time" Effect="Permit">
+        <Condition>
+            <!-- Function to check time -->
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-equal">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">08:23:47-05:00</AttributeValue>
+                </Apply>
+                <!-- Use EnvironmentAttributeDesignator for environment attributes -->
+                <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                                                DataType="http://www.w3.org/2001/XMLSchema#time"
+                                                MustBePresent="false"/>
+            </Apply>
+        </Condition>
+    </Rule>
+</Policy>

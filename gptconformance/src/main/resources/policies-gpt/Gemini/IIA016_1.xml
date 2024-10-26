@@ -1,0 +1,12 @@
+<Policy id="ExamplePolicy" RuleCombiningAlg="and">
+  <Target>
+    <AnyAny/>
+  </Target>
+  <Rule id="AllowRule" Effect="Permit">
+    <Condition>
+      <Apply Function="urn:oasis:names:tc:xacml:1.0:functions:current-time">
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">2024-10-22T14:23:47-05:00</AttributeValue>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>
