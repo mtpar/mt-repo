@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy 
+    xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+    PolicyId="urn:example:time-based-policy"
+    RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+    
+    <Description>
+        Allow any action on any resource at exactly 08:23:47-05:00
+    </Description>
+    
+    <Target/>
+    
+    <Rule 
+        RuleId="urn:example:time-rule" 
+        Effect="Permit">
+        <Description>
+            Permit access at specific time
+        </Description>
+        
+        <Target/>
+        
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-equal">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                    <EnvironmentAttributeDesignator 
+                        AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                        DataType="http://www.w3.org/2001/XMLSchema#time"/>
+                </Apply>
+                <AttributeValue 
+                    DataType="http://www.w3.org/2001/XMLSchema#time">08:23:47-05:00</AttributeValue>
+            </Apply>
+        </Condition>
+    </Rule>
+    
+    <Rule 
+        RuleId="urn:example:default-deny" 
+        Effect="Deny">
+        <Description>
+            Default deny all other access attempts
+        </Description>
+        <Target/>
+    </Rule>
+</Policy>
