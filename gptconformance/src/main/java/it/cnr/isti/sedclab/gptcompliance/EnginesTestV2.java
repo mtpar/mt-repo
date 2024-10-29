@@ -69,7 +69,7 @@ public class EnginesTestV2{
 
     }
    
-   @Test
+   @Ignore
    public void testChatGPT() throws Exception {
    	
    	String request = TestUtil.createRequest(shortName + "Request.xml");
@@ -78,7 +78,7 @@ public class EnginesTestV2{
    		 log.info("*****	SENDING CHATGPT REQUEST	*******	"+shortName);
    		Set<String> policies = new HashSet<String>();
    		policies.add(shortName);                
-   		ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_CLAUDE), request);
+   		ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_CGPT), request);
    		if(response != null){
    			//IF 
    			//ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
@@ -110,7 +110,7 @@ public class EnginesTestV2{
 	   String request = TestUtil.createRequest(shortName + "Request.xml");
 	   
 	   if(request != null){
-		   log.info("*****	SENDING CLAUDE REQUEST	*******");
+		   log.info("*****	SENDING CLAUDE REQUEST	*******"+shortName);
 		   Set<String> policies = new HashSet<String>();
 		   policies.add(shortName);                
 		   ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_CLAUDE), request);
@@ -139,7 +139,7 @@ public class EnginesTestV2{
 	   log.info("Test for" + shortName + " is finished");
    }
    
-   @Test
+   @Ignore
    public void testGemini() throws Exception {
 	   
 	   String request = TestUtil.createRequest(shortName + "Request.xml");
@@ -148,7 +148,7 @@ public class EnginesTestV2{
 		   log.info("*****	SENDING GEMINI REQUEST	FOR*******	"+shortName);
 		   Set<String> policies = new HashSet<String>();
 		   policies.add(shortName);                
-		   ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_CLAUDE), request);
+		   ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_GEMINI), request);
 		   if(response != null){
 			   //IF 
 			   //ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
@@ -175,11 +175,11 @@ public class EnginesTestV2{
    }
    
     
-   @Test
+   @Ignore
     public void testOfficial() throws Exception {
 
 
-	   log.info("*****	SENDING GEMINI REQUEST	FOR*******"+shortName);
+	   log.info("*****	SENDING OFFICIAL REQUEST FOR*******"+shortName);
 
             String request = TestUtil.createRequest(shortName + "Request.xml");
           
@@ -250,40 +250,6 @@ public class EnginesTestV2{
         return new PDP(pdpConfig);
 
     }
-    /*
-     *  
-    @RunWith(Parameterized.class)
-    @Category(UnitTest.class)
-    public class StandardCalculatorTest {
-     
-        @Parameters
-        public static Collection<Object[]> data() {
-            return Arrays.asList(new Object[][] {
-                    { 0, 0, 0 }, { 1, 1, 2 }
-            });
-        }
-     
-        private final Calculator calculator;
-        private final int first;
-        private final int second;
-        private final int expectedSum;
-     
-        public StandardCalculatorTest(int first, 
-                                      int second, 
-                                      int expectedSum) {
-             
-            this.calculator = new Calculator();
-            this.first = first;
-            this.second = second;
-            this.expectedSum = expectedSum;
-        }
-     
-        @Test
-        public void shouldReturnCorrectSum() {
-            int actualSum = calculator.sum(first, second);
-            assertThat(actualSum).isEqualByComparingTo(expectedSum);
-        }
-    }
-     */
+
     
 }

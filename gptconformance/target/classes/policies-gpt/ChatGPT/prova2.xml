@@ -1,0 +1,10 @@
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-equal">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">08:23:47-05:00</AttributeValue>
+                </Apply>
+                <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                                                DataType="http://www.w3.org/2001/XMLSchema#time"
+                                                MustBePresent="false"/>
+            </Apply>
+        </Condition>
