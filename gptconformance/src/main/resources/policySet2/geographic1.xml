@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"   
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:eu-data-access"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+    <Description>
+	Restricts access to EU customer data to only users physically located within EU countries, 
+	complying with GDPR requirements. Uses IP geolocation and GPS coordinates for verification.
+	</Description>
+    <Target>
+        <Resources>
+            <Resource>
+                <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">eu-customer-data</AttributeValue>
+                    <ResourceAttributeDesignator AttributeId="resource-type" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </ResourceMatch>
+            </Resource>
+        </Resources>
+    </Target>
+    <Rule RuleId="eu-location-access" Effect="Permit">
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <!-- Check if country code is in EU list -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                        <SubjectAttributeDesignator AttributeId="country-code" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">DE,FR,IT,ES,NL,BE,PT,IE,DK,SE,FI,AT,PL</AttributeValue>
+                </Apply>
+                <!-- Verify IP geolocation -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
+                        <SubjectAttributeDesignator AttributeId="ip-in-eu" DataType="http://www.w3.org/2001/XMLSchema#boolean"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+    <Rule RuleId="default" Effect="Deny"/>
+</Policy>
+
+
+<!--
+
+I've created three geographic location-based policies:
+
+1. EU Data Access Policy:
+   - Restricts access to EU customer data to users within EU
+   - Uses multiple verification methods (country code, IP geolocation)
+   - Implements GDPR compliance requirements
+   - Default deny for non-EU locations
+
+2. Regional Office Access Policy:
+   - Controls access based on physical presence in office locations
+   - Uses GPS coordinate ranges
+   - Verifies connection to office network
+   - Implements precise location boundaries
+
+3. International Banking Access Policy:
+   - Controls banking operations based on location
+   - Validates local banking hours based on timezone
+   - Implements regional transaction restrictions
+   - Matches transaction location with account region
+
+Each policy implements different aspects of geographic restrictions:
+- Coordinate-based verification
+- Network location verification
+- Time zone considerations
+- Regional compliance requirements
+- Multiple verification methods
+
+
+-->

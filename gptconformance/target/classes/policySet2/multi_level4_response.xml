@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response xmlns="urn:oasis:names:tc:xacml:2.0:context:schema:os">
+    <Result>
+        <Decision>Permit</Decision>
+        <Status>
+            <StatusCode Value="urn:oasis:names:tc:xacml:1.0:status:ok"/>
+            <StatusMessage>Manager approval permitted for financial request</StatusMessage>
+        </Status>
+        <Obligations>
+            <Obligation ObligationId="update-approval-level" FulfillOn="Permit">
+                <AttributeAssignment 
+                    AttributeId="new-approval-level"
+                    DataType="http://www.w3.org/2001/XMLSchema#integer">1</AttributeAssignment>
+            </Obligation>
+            <Obligation ObligationId="log-approval" FulfillOn="Permit">
+                <AttributeAssignment
+                    AttributeId="approval-timestamp"
+                    DataType="http://www.w3.org/2001/XMLSchema#dateTime">2024-11-13T10:30:00Z</AttributeAssignment>
+                <AttributeAssignment
+                    AttributeId="approver-role"
+                    DataType="http://www.w3.org/2001/XMLSchema#string">manager</AttributeAssignment>
+            </Obligation>
+        </Obligations>
+    </Result>
+</Response>

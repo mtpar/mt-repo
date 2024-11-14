@@ -25,3 +25,6 @@
         </Condition>
     </Rule>
 </Policy>
+
+<!-- IMPORTANTE!
+Il file è formalmente corretto in quanto valida, MA non lo è semanticamente, in quanto è sbagliato l'annidamento di EnvironmentAttributeDesignator, quindi poi Balana dà errore (QUINDI ABBIAMO UN PROB DI SEMANTICA SBAGLIATA) -->

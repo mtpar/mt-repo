@@ -1,98 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Policy
-    xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
-    PolicyId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:policy:read-write-aluminum-qos"
-    RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
-    Version="1.0">
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+        PolicyId="urn:oasis:names:tc:xacml:2.0:conformance-test:policy:example:aluminum-qos-policy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides"
+        Version="1.0">
+  
+    <Description>Policy allowing any subject to perform any action on any resource if Quality of Service is 'aluminum'</Description>
 
-    <!-- Policy description -->
-    <Description>
-        This policy allows any subject to read any resource, or write any resource with "aluminum" Quality of Service (QoS).
-    </Description>
-
-    <!-- No restrictions, applies to any subject, resource, and action -->
+    <!-- No specific Target, applies to any subject, action, and resource -->
     <Target/>
 
-    <!-- Rule for allowing "read" actions on any resource -->
-    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-read" Effect="Permit">
-        <Target>
-            <!-- Any Subject -->
-            <Subjects>
-                <Subject>
-                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">*</AttributeValue>
-                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
-                    </SubjectMatch>
-                </Subject>
-            </Subjects>
+    <!-- Rule permitting actions if QoS is 'aluminum' -->
+    <Rule RuleId="aluminum-qos-rule" Effect="Permit">
+        <Description>Permit any action on any resource if Quality of Service is 'aluminum'</Description>
 
-            <!-- Any Resource -->
-            <Resources>
-                <Resource>
-                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">*</AttributeValue>
-                        <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
-                    </ResourceMatch>
-                </Resource>
-            </Resources>
-
-            <!-- "read" Action -->
-            <Actions>
-                <Action>
-                    <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
-                        <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
-                    </ActionMatch>
-                </Action>
-            </Actions>
-        </Target>
-    </Rule>
-
-    <!-- Rule for allowing "write" actions with "aluminum" QoS on any resource -->
-    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-write-aluminum" Effect="Permit">
-        <Target>
-            <!-- Any Subject -->
-            <Subjects>
-                <Subject>
-                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">*</AttributeValue>
-                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
-                    </SubjectMatch>
-                </Subject>
-            </Subjects>
-
-            <!-- Any Resource -->
-            <Resources>
-                <Resource>
-                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">*</AttributeValue>
-                        <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
-                    </ResourceMatch>
-                </Resource>
-            </Resources>
-
-            <!-- "write" Action -->
-            <Actions>
-                <Action>
-                    <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
-                        <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
-                    </ActionMatch>
-                </Action>
-            </Actions>
-        </Target>
-
-        <!-- Condition requiring "aluminum" Quality of Service for write actions -->
+        <!-- Condition enforcing Quality of Service as 'aluminum' -->
         <Condition>
             <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
                 <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">aluminum</AttributeValue>
-                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-                    <ActionAttributeDesignator AttributeId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:action:qos" DataType="http://www.w3.org/2001/XMLSchema#string"/>
-                </Apply>
+                <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:QoS" DataType="http://www.w3.org/2001/XMLSchema#string"/>
             </Apply>
         </Condition>
     </Rule>
-
 </Policy>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Policy Set 1: Two-Level Document Approval -->
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+    PolicySetId="DocumentTwoLevelApproval"
+    PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+    
+    <Target/>
+    
+    <Policy PolicyId="DocumentApprovalPolicy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            document-approver
+                        </AttributeValue>
+                        <SubjectAttributeDesignator
+                            AttributeId="role"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            document
+                        </AttributeValue>
+                        <ResourceAttributeDesignator
+                            AttributeId="resource-type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+            <Actions>
+                <Action>
+                    <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            approve
+                        </AttributeValue>
+                        <ActionAttributeDesignator
+                            AttributeId="action-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ActionMatch>
+                </Action>
+            </Actions>
+        </Target>
+
+        <Rule RuleId="RequireTwoApprovals" Effect="Permit">
+            <Condition>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                        <ResourceAttributeDesignator
+                            AttributeId="approval-count"
+                            DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">2</AttributeValue>
+                </Apply>
+            </Condition>
+        </Rule>
+    </Policy>
+
+    <!-- Policy Set 2: Three-Level Financial Approval -->
+    <PolicySet PolicySetId="FinancialThreeLevelApproval"
+        PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+        
+        <Target>
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            financial-transaction
+                        </AttributeValue>
+                        <ResourceAttributeDesignator
+                            AttributeId="resource-type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+        </Target>
+
+        <Policy PolicyId="FinancialApprovalPolicy"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+            
+            <Rule RuleId="ManagerApproval" Effect="Permit">
+                <Target>
+                    <Subjects>
+                        <Subject>
+                            <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                                    manager
+                                </AttributeValue>
+                                <SubjectAttributeDesignator
+                                    AttributeId="role"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                            </SubjectMatch>
+                        </Subject>
+                    </Subjects>
+                </Target>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-less-than">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                            <ResourceAttributeDesignator
+                                AttributeId="approval-level"
+                                DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                        </Apply>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">1</AttributeValue>
+                    </Apply>
+                </Condition>
+            </Rule>
+
+            <Rule RuleId="DirectorApproval" Effect="Permit">
+                <Target>
+                    <Subjects>
+                        <Subject>
+                            <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                                    director
+                                </AttributeValue>
+                                <SubjectAttributeDesignator
+                                    AttributeId="role"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                            </SubjectMatch>
+                        </Subject>
+                    </Subjects>
+                </Target>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-equal">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                            <ResourceAttributeDesignator
+                                AttributeId="approval-level"
+                                DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                        </Apply>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">1</AttributeValue>
+                    </Apply>
+                </Condition>
+            </Rule>
+
+            <Rule RuleId="CFOApproval" Effect="Permit">
+                <Target>
+                    <Subjects>
+                        <Subject>
+                            <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                                    cfo
+                                </AttributeValue>
+                                <SubjectAttributeDesignator
+                                    AttributeId="role"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                            </SubjectMatch>
+                        </Subject>
+                    </Subjects>
+                </Target>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-equal">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                            <ResourceAttributeDesignator
+                                AttributeId="approval-level"
+                                DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                        </Apply>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">2</AttributeValue>
+                    </Apply>
+                </Condition>
+            </Rule>
+        </Policy>
+    </PolicySet>
+
+    <!-- Policy Set 3: Hierarchical Project Approval -->
+    <PolicySet PolicySetId="ProjectHierarchicalApproval"
+        PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+        
+        <Target>
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+                            project
+                        </AttributeValue>
+                        <ResourceAttributeDesignator
+                            AttributeId="resource-type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+        </Target>
+
+        <Policy PolicyId="ProjectApprovalHierarchy"
+            RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+            
+            <Rule RuleId="HighValueProjectApproval" Effect="Permit">
+                <Target/>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than">
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                                <ResourceAttributeDesignator
+                                    AttributeId="project-value"
+                                    DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                            </Apply>
+                            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">1000000</AttributeValue>
+                        </Apply>
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                                <SubjectAttributeDesignator
+                                    AttributeId="role"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                            </Apply>
+                            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">board-member</AttributeValue>
+                        </Apply>
+                    </Apply>
+                </Condition>
+            </Rule>
+
+            <Rule RuleId="MediumValueProjectApproval" Effect="Permit">
+                <Target/>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than">
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                                <ResourceAttributeDesignator
+                                    AttributeId="project-value"
+                                    DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                            </Apply>
+                            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">100000</AttributeValue>
+                        </Apply>
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                                <SubjectAttributeDesignator
+                                    AttributeId="role"
+                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                            </Apply>
+                            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">director</AttributeValue>
+                        </Apply>
+                    </Apply>
+                </Condition>
+            </Rule>
+
+            <Rule RuleId="LowValueProjectApproval" Effect="Permit">
+                <Target/>
+                <Condition>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                            <SubjectAttributeDesignator
+                                AttributeId="role"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                        </Apply>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">project-manager</AttributeValue>
+                    </Apply>
+                </Condition>
+            </Rule>
+        </Policy>
+    </PolicySet>
+</PolicySet>

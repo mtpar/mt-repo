@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"   
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:examplePolicy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+<!-- Policy 1: Temporary contractor access during business hours -->
+    <Description>Grants temporary access to contractors during business hours</Description>
+    <Target/>
+    <Rule RuleId="permit-contractor-access" Effect="Permit">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">contractor</AttributeValue>
+                        <SubjectAttributeDesignator
+                            AttributeId="role"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">development-resources</AttributeValue>
+                        <ResourceAttributeDesignator
+                            AttributeId="resource-type"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+        </Target>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-greater-than-or-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                        <EnvironmentAttributeDesignator
+                            AttributeId="current-time"
+                            DataType="http://www.w3.org/2001/XMLSchema#time"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">09:00:00</AttributeValue>
+                </Apply>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-less-than-or-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                        <EnvironmentAttributeDesignator
+                            AttributeId="current-time"
+                            DataType="http://www.w3.org/2001/XMLSchema#time"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">17:00:00</AttributeValue>
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+    <Rule RuleId="deny-otherwise" Effect="Deny"/>
+</Policy>

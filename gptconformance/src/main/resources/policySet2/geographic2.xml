@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"   
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:eu-data-access"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+<!-- Policy 2: Regional Office Access Policy -->
+<Description>
+Controls access to office resources based on physical presence in designated office locations,
+using GPS coordinates and office WiFi network verification.
+</Description>
+    <Target/>
+    <Rule RuleId="office-presence" Effect="Permit">
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <!-- Check if within office GPS coordinates range -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
+                            <SubjectAttributeDesignator AttributeId="latitude" DataType="http://www.w3.org/2001/XMLSchema#double"/>
+                        </Apply>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">37.7749</AttributeValue>
+                    </Apply>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+                        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:double-one-and-only">
+                            <SubjectAttributeDesignator AttributeId="latitude" DataType="http://www.w3.org/2001/XMLSchema#double"/>
+                        </Apply>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">37.7757</AttributeValue>
+                    </Apply>
+                </Apply>
+                <!-- Verify connection to office network -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                        <SubjectAttributeDesignator AttributeId="network-ssid" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">OFFICE-SECURE-NETWORK</AttributeValue>
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+    <Rule RuleId="default" Effect="Deny"/>
+</Policy>

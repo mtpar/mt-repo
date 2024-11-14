@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"
+PolicyId="urn:sedclab:policy:resource-restrictions-1"
+RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+Version="1.0">
+<!-- This policy restricts access to the urn:sedclab:resource:financial-report resource, allowing only users with the urn:sedclab:roles:finance-analyst role to view it. All other access is denied. -->
+<Description>Policy with Resource-based Restrictions</Description>
+
+	<Target>
+	    <Resources>
+	        <Resource>
+	            <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+	                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">urn:sedclab:resource:financial-report</AttributeValue>
+	                <ResourceAttributeDesignator AttributeId="resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+	            </ResourceMatch>
+	        </Resource>
+	    </Resources>
+	    <Actions>
+	        <Action>
+	            <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+	                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">view</AttributeValue>
+	                <ActionAttributeDesignator AttributeId="action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+	            </ActionMatch>
+	        </Action>
+	    </Actions>
+	</Target>
+
+    
+    <Rule RuleId="AllowFinancialReportView" Effect="Permit">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">urn:sedclab:roles:finance-analyst</AttributeValue>
+                        <SubjectAttributeDesignator AttributeId="role" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+        </Target>
+    </Rule>
+
+    <Rule RuleId="DenyAllOtherAccess" Effect="Deny"/>
+</Policy>
+

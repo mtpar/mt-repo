@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"   
+PolicyId="urn:sample:xacml:2.0:samplepolicy" 
+RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+
+<!-- 
+ a given resource can be accessed only by a user belonging to a particular role, and all requests to access any other resource should fail.
+ Per essere ammessa, La richesta deve 
+ - riguardare la risorsa http://localhost:8280/services/echo/ e solo quella.
+ - riguarda l'operazione di lettura
+ - provenire da un utente che appartiene al gruppo "admin" (può appartenere anche ad altri gruppi, ma admin ci deve essere)
+  -->
+
+   <Description>Sample XACML Authorization Policy</Description>
+   <Target></Target>
+   <Rule Effect="Permit" RuleId="primary-group-rule">
+      <Target>
+         <Resources>
+            <Resource>
+               <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+                  <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://localhost:8280/services/echo/</AttributeValue>
+                  <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"></ResourceAttributeDesignator>
+               </ResourceMatch>
+            </Resource>
+         </Resources>
+         <Actions>
+            <Action>
+               <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                  <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+                  <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"></ActionAttributeDesignator>
+               </ActionMatch>
+            </Action>
+         </Actions>
+      </Target>
+      <Condition>
+         <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-subset">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+               <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">admin</AttributeValue>
+            </Apply>
+            <SubjectAttributeDesignator AttributeId="group" DataType="http://www.w3.org/2001/XMLSchema#string"></SubjectAttributeDesignator>
+         </Apply>
+      </Condition>
+   </Rule>
+   <Rule Effect="Deny" RuleId="deny-rule"></Rule>
+</Policy>        

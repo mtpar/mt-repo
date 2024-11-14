@@ -1,0 +1,6 @@
+***********	RULE DESCRIPTIONS	*************
+
+  a001 - Julius Hibbert can read or write Bart Simpson's medical record.
+  a006 - Julius Hibbert can read or write Bart Simpson's medical record.
+  a007 - Julius Hibbert can read or write Bart Simpson's medical record.          
+  

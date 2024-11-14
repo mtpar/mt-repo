@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os
+        http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-policy-schema-os.xsd"   
+        PolicyId="urn:sedclab:names:tc:xacml:2.0:eu-data-access"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+        <!-- Policy 3: International Banking Access Policy -->
+<Description>
+Controls access to banking operations based on customer's location and local banking hours,
+implementing restrictions for international transactions and regional compliance.
+</Description>
+    <Target>
+        <Actions>
+            <Action>
+                <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">perform-transaction</AttributeValue>
+                    <ActionAttributeDesignator AttributeId="action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </ActionMatch>
+            </Action>
+        </Actions>
+    </Target>
+    <Rule RuleId="domestic-transaction" Effect="Permit">
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <!-- Verify transaction is within allowed banking hours for the timezone -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-greater-than-or-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                        <EnvironmentAttributeDesignator AttributeId="local-time" DataType="http://www.w3.org/2001/XMLSchema#time"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">09:00:00</AttributeValue>
+                </Apply>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-less-than-or-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                        <EnvironmentAttributeDesignator AttributeId="local-time" DataType="http://www.w3.org/2001/XMLSchema#time"/>
+                    </Apply>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">17:00:00</AttributeValue>
+                </Apply>
+                <!-- Check if transaction location matches account region -->
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                        <SubjectAttributeDesignator AttributeId="transaction-country" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Apply>
+                    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                        <ResourceAttributeDesignator AttributeId="account-country" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Apply>
+                </Apply>
+            </Apply>
+        </Condition>
+    </Rule>
+    <Rule RuleId="default" Effect="Deny"/>
+</Policy>

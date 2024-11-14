@@ -58,6 +58,6 @@ Anyone can read or write any kind of resource.
 
 
 IB004 
-Anyone can read any resource or can write any resource with "aluminum" Quality of Service. 
+"Any Subject can read any resource or can write any resource, given that the actions have an 'aluminum' Quality of Service."
      
         

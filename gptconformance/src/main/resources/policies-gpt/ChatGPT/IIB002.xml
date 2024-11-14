@@ -16,7 +16,7 @@
     <Target/>
 
     <!-- Rule allowing "read" actions on any resource -->
-    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-read" Effect="Permit">
+    <Rule RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:allow-read" Effect="Permit">
         <Target>
             <!-- Any Subject -->
             <Subjects>
@@ -51,7 +51,7 @@
     </Rule>
 
     <!-- Rule allowing "write" actions on any resource -->
-    <Rule RuleId="urn:sedclab:names:tc:xacml:2.0:gpt-tests:rule:allow-write" Effect="Permit">
+    <Rule RuleId="urn:oasis:names:tc:xacml:2.0:conformance-test:allow-write" Effect="Permit">
         <Target>
             <!-- Any Subject -->
             <Subjects>

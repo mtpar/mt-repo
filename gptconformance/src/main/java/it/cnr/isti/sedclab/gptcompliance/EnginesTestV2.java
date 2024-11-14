@@ -50,7 +50,7 @@ public class EnginesTestV2{
     
     @Parameters
     public static Iterable<? extends Object> gpts() {
-    	return Arrays.asList("IIA016","IIB004");
+    	return Arrays.asList("IIA016","IIB004","IIB002");
     }
     
 	@Parameter 
@@ -69,7 +69,7 @@ public class EnginesTestV2{
 
     }
    
-   @Ignore
+   @Test
    public void testChatGPT() throws Exception {
    	
    	String request = TestUtil.createRequest(shortName + "Request.xml");
@@ -104,7 +104,7 @@ public class EnginesTestV2{
    	log.info("Test for" + shortName + " is finished");
    }
    
-   @Test
+   @Ignore
    public void testClaude() throws Exception {
 	   
 	   String request = TestUtil.createRequest(shortName + "Request.xml");

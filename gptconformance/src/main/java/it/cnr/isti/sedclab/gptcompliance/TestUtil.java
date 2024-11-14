@@ -320,7 +320,7 @@ public class TestUtil {
      * @param responseId  response file name
      * @return ResponseCtx or null if any error
      */
-    public static ResponseCtx createResponse(
+    public static ResponseCtx createExpectedResponse(
                                              String responseId) {
 
         File file = new File(".");

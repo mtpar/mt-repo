@@ -6,7 +6,7 @@ Strategia di prompting: fornisco un "cappello" introduttivo con tutte le info ch
 Basta un cappello poco dettagliato, altrimenti Claude chiede di fornire ruoli, attributi di ambiente e altre specifiche che non abbiamo.
 INTRO:
 I need to translate into XACML2 some policies. Please note that resources are identified via urns 
-and that the base namespace is "urn:sedclab:names:tc:xacml:2.0:gpt-tests", use it to declare ids. Please, include XACML2 
+and that the base namespace is "urn:oasis:names:tc:xacml:2.0:conformance-test", use it to declare ids. Please, include XACML2 
 schema declaration in every XML document you will produce. Are you ready? 
 
 001.
