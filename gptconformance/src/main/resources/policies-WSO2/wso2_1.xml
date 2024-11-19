@@ -16,7 +16,7 @@ RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-
 
    <Description>Sample XACML Authorization Policy</Description>
    <Target></Target>
-   <Rule Effect="Permit" RuleId="primary-group-rule">
+   <Rule Effect="Permit"  RuleId="urn:oasis:names:tc:xacml:2.0:gpt-test:rule:primary-group-rule">
       <Target>
          <Resources>
             <Resource>
@@ -38,11 +38,12 @@ RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-
       <Condition>
          <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-subset">
             <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
-               <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">admin</AttributeValue>
+               <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">administrators</AttributeValue>
             </Apply>
-            <SubjectAttributeDesignator AttributeId="group" DataType="http://www.w3.org/2001/XMLSchema#string"></SubjectAttributeDesignator>
+            <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:2.0:gpt-test:group" DataType="http://www.w3.org/2001/XMLSchema#string"></SubjectAttributeDesignator>
          </Apply>
       </Condition>
-   </Rule>
-   <Rule Effect="Deny" RuleId="deny-rule"></Rule>
+         </Rule>
+
+   <Rule Effect="Deny" RuleId="urn:oasis:names:tc:xacml:2.0:gpt-test:rule:deny-rule"></Rule>
 </Policy>        

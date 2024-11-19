@@ -31,6 +31,7 @@ public class TestConstants {
    public static final String RESOURCE_PATH =  "src" + File.separator + "main" + File.separator + "resources" + File.separator;
    //official policies
    public static final String OFFICIAL_POLICIES_PATH =  RESOURCE_PATH+"policies-official"+File.separator;
+   public static final String W2O_OFFICIAL_POLICIES_PATH =  RESOURCE_PATH+"policies-WSO2"+File.separator;
    public static final String GEN_POLICIES_PATH =  RESOURCE_PATH+"policies-gpt"+File.separator;
    public static final String CHATGPT_POLICY_PATH = GEN_POLICIES_PATH+"ChatGPT"+File.separator;
    public static final String CLAUDE_POLICY_PATH = GEN_POLICIES_PATH+"Claude"+File.separator;
@@ -70,6 +71,20 @@ public class TestConstants {
     	}
     }
     
+    //TODO: aggiustare questo (se serve)
+    /*
+    public static Map<Integer, String> W2O_POLICYPATH_MAP;
+    static {
+    	W2O_POLICYPATH_MAP = new HashMap<>();
+    	for(int i=0; i<5; i++) {
+    		if (i==GENERATOR_NONE)POLICYPATH_MAP.put(i, OFFICIAL_POLICIES_PATH);
+    		if (i==GENERATOR_CGPT) POLICYPATH_MAP.put(i, CHATGPT_POLICY_PATH);
+    		if (i==GENERATOR_GEMINI) POLICYPATH_MAP.put(i, GEMINI_POLICY_PATH);
+    		if (i==GENERATOR_COPILOT) POLICYPATH_MAP.put(i, COPILOT_POLICY_PATH);
+    		if (i==GENERATOR_CLAUDE) POLICYPATH_MAP.put(i, CLAUDE_POLICY_PATH);
+    	}
+    }
+    */
 
     public static final String CONFIG_FILE =  RESOURCE_PATH + "config.xml";
 }

@@ -50,7 +50,7 @@ public class EnginesTestV2{
     
     @Parameters
     public static Iterable<? extends Object> gpts() {
-    	return Arrays.asList("IIA016","IIB004","IIB002");
+    	return Arrays.asList(/*"IIA016","IIB004",*/"IIB002");
     }
     
 	@Parameter 
@@ -69,7 +69,7 @@ public class EnginesTestV2{
 
     }
    
-   @Test
+   @Ignore
    public void testChatGPT() throws Exception {
    	
    	String request = TestUtil.createRequest(shortName + "Request.xml");
@@ -83,7 +83,7 @@ public class EnginesTestV2{
    			//IF 
    			//ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
    			// IIA001Response.xml è per quando la policy PASSA
-   			ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
+   			ResponseCtx expectedResponseCtx = TestUtil.createExpectedResponse(shortName + "Response.xml");
    			log.info("****Response from the PDP :  " + response.encode());
    			if(expectedResponseCtx != null){
    				try {
@@ -118,7 +118,7 @@ public class EnginesTestV2{
 			   //IF 
 			   //ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
 			   // IIA001Response.xml è per quando la policy PASSA
-			   ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
+			   ResponseCtx expectedResponseCtx = TestUtil.createExpectedResponse(shortName + "Response.xml");
 			   log.info("****Response from the PDP :  " + response.encode());
 			   if(expectedResponseCtx != null){
 				   try {
@@ -153,7 +153,7 @@ public class EnginesTestV2{
 			   //IF 
 			   //ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
 			   // IIA001Response.xml è per quando la policy PASSA
-			   ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
+			   ResponseCtx expectedResponseCtx = TestUtil.createExpectedResponse(shortName + "Response.xml");
 			   log.info("****Response from the PDP :  " + response.encode());
 			   if(expectedResponseCtx != null){
 				   try {
@@ -175,7 +175,7 @@ public class EnginesTestV2{
    }
    
     
-   @Ignore
+   @Test
     public void testOfficial() throws Exception {
 
 
@@ -189,7 +189,7 @@ public class EnginesTestV2{
                 policies.add(shortName);                
                 ResponseCtx response = TestUtil.evaluate(getPDPNewInstance(policies,TestConstants.GENERATOR_NONE), request);
                 if(response != null){
-                    ResponseCtx expectedResponseCtx = TestUtil.createResponse(shortName + "Response.xml");
+                    ResponseCtx expectedResponseCtx = TestUtil.createExpectedResponse(shortName + "Response.xml");
                     log.info("Response that is received from the PDP :  " + response.encode());
                     if(expectedResponseCtx != null){
 		                    	try {

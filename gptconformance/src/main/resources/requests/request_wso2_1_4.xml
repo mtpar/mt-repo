@@ -11,7 +11,7 @@ Result - Deny
        DataType="http://www.w3.org/2001/XMLSchema#string">
        <AttributeValue>admin</AttributeValue>
       </Attribute>
-      <Attribute AttributeId="group"
+      <Attribute AttributeId="urn:oasis:names:tc:xacml:2.0:gpt-test:group"
        DataType="http://www.w3.org/2001/XMLSchema#string">
        <AttributeValue>business</AttributeValue>
       </Attribute>

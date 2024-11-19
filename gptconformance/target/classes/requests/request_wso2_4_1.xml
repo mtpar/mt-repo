@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request  xmlns="urn:oasis:names:tc:xacml:2.0:context:schema:os"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:context:schema:os  access_control-xacml-2.0-context-schema-os.xsd">
+          <!-- 
+          PERMIT
+          Key points about this request:
+
+Subject belongs to both 'admin_emps' and 'admin' groups
+Resource is the specific Customers service getEmployees endpoint
+Action is 'read'
+Matches the policy's conditions for permitted access
+ -->
+    <Subject>
+        <Attribute AttributeId="urn:oasis:names:tc:xacml:2.0:gpt-test:group" DataType="http://www.w3.org/2001/XMLSchema#string">
+            <AttributeValue>admin_emps</AttributeValue>
+        </Attribute>
+        <Attribute AttributeId="urn:oasis:names:tc:xacml:2.0:gpt-test:group" DataType="http://www.w3.org/2001/XMLSchema#string">
+            <AttributeValue>admin</AttributeValue>
+        </Attribute>
+    </Subject>
+    
+    <Resource>
+        <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" 
+                   DataType="http://www.w3.org/2001/XMLSchema#string">
+            <AttributeValue>http://localhost:8280/services/Customers/getEmployees</AttributeValue>
+        </Attribute>
+    </Resource>
+    <Action>
+        <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+                   DataType="http://www.w3.org/2001/XMLSchema#string">
+            <AttributeValue>read</AttributeValue>
+        </Attribute>
+    </Action>
+    
+    <Environment/>
+</Request>

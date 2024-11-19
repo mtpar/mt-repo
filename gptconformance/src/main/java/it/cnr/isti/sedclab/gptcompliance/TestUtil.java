@@ -54,7 +54,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -255,6 +257,15 @@ public class TestUtil {
 
         try {
             requestCtx = RequestCtxFactory.getFactory().getRequestCtx(request.replaceAll(">\\s+<", "><"));
+            Set<Attributes> attrSet = requestCtx.getAttributesSet();
+            Iterator<Attributes> attrsIt = attrSet.iterator();
+            while (attrsIt.hasNext()) {
+            	Attributes atts = attrsIt.next();
+            	 atts  = attrSet.iterator().next();
+            	String attrsId = atts.getId();
+            	URI attrsCategory = atts.getCategory();
+            }
+            
             responseCtx = pdp.evaluate(requestCtx);
         } catch (ParsingException e) {
             String error = "Invalid request  : " + e.getMessage();

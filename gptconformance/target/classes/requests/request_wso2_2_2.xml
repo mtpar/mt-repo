@@ -2,9 +2,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:context:schema:os  access_control-xacml-2.0-context-schema-os.xsd">
           <!-- 
-          Resource - http://localhost:8280/services/Customers/getCustomers
-			User - "admin" belongs only to the "admin_emps" group
-			Result - Deny
+        		PERMIT
 			 -->
      <Subject>
       <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
@@ -19,7 +17,7 @@
      <Resource>
       <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
        DataType="http://www.w3.org/2001/XMLSchema#string">
-       <AttributeValue>http://localhost:8280/services/Customers/getCustomers</AttributeValue>
+       <AttributeValue>http://localhost:8280/services/Customers/getEmployees</AttributeValue>
       </Attribute>
      </Resource>
      <Action>

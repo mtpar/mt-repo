@@ -11,14 +11,14 @@ Result - Deny
        DataType="http://www.w3.org/2001/XMLSchema#string">
        <AttributeValue>admin</AttributeValue>
       </Attribute>
-      <Attribute AttributeId="group"
+      <Attribute AttributeId="urn:oasis:names:tc:xacml:2.0:gpt-test:group"
        DataType="http://www.w3.org/2001/XMLSchema#string">
-       <AttributeValue>admin</AttributeValue>
+       <AttributeValue>administrators</AttributeValue>
       </Attribute>
      </Subject>
      <Resource>
       <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
-       DataType="http://www.w3.org/2001/XMLSchema#string">
+       DataType="http://www.w3.org/2001/XMLSchema#anyURI">
        <AttributeValue>http://localhost:8280/services/test/</AttributeValue>
       </Attribute>
      </Resource>
