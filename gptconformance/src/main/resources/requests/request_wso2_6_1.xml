@@ -4,7 +4,6 @@
           xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:context:schema:os  access_control-xacml-2.0-context-schema-os.xsd">
 <!--
 PERMIT
-I'll create a request that tests the second permit rule, which allows read access to resources other than getVersion1/getVersion2 for users in the admin_emps or admin groups.
 -->
     <Subject>
         <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"

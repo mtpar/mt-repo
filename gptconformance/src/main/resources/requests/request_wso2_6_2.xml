@@ -3,30 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:context:schema:os
                             http://docs.oasis-open.org/xacml/2.0/access_control-xacml-2.0-context-schema-os.xsd">
- <!--
-PERMIT
-This request should be permitted according to the second rule because:
-1. It includes a Subject with the group attribute set to "admin_emps" (one of the allowed groups)
-2. The Action is "read" which matches the policy
-3. The Resource is not getVersion1 or getVersion2, so it falls under the second rule
-4. The Condition in the rule checks for membership in either admin_emps or admin groups, and this request has admin_emps
 
--->
                             
     <Subject>
         <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
                    DataType="http://www.w3.org/2001/XMLSchema#string">
-            <AttributeValue>an_admin</AttributeValue>
+            <AttributeValue>userName</AttributeValue>
         </Attribute>
         <Attribute AttributeId="group"
                    DataType="http://www.w3.org/2001/XMLSchema#string">
-            <AttributeValue>admin_emps</AttributeValue>
+            <AttributeValue>group_x</AttributeValue>
         </Attribute>
     </Subject>
     <Resource>
         <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
                    DataType="http://www.w3.org/2001/XMLSchema#string">
-            <AttributeValue>http://localhost:8280/services/OtherService/someOperation</AttributeValue>
+            <AttributeValue>http://localhost:8280/services/Customers/getVersion2</AttributeValue>
         </Attribute>
     </Resource>
     <Action>
