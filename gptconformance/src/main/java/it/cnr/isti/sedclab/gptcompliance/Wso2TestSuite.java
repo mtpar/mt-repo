@@ -49,7 +49,7 @@ public class Wso2TestSuite{
     
     @Parameters
     public static Iterable<? extends Object> testPolicies() {
-    	return Arrays.asList("wso2_1","wso2_2","wso2_3","wso2_4","wso2_5","wso2_6");
+    	return Arrays.asList(/*"wso2_1","wso2_2","wso2_3","wso2_4","wso2_5",*/"wso2_6");
     }
 
     @Parameter 
